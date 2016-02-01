@@ -11,6 +11,11 @@ public abstract class Pair<X, Y> {
 	}
 	
 	@Override
+	public int hashCode() {
+		return x.hashCode() ^ y.hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object other) {
 		if (other == null) {
 			return false;

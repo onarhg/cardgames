@@ -24,6 +24,17 @@ public abstract class Deck<C extends Card> {
 		}
 	}
 	
+	public CardList<C> drawCards(int numCards) {
+		if (numCards > cards.size()) {
+			throw new IllegalStateException("The deck does not have the "
+					+ "requisite number of cards");
+		}
+		
+		CardList<C> drawnCards = (CardList<C>) cards.subList(0, numCards);
+		cards.removeAll(drawnCards);
+		return drawnCards;
+	}
+	
 	public void addCard(C card) {
 		this.cards.add(card);
 	}

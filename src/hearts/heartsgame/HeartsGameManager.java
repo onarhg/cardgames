@@ -2,10 +2,11 @@ package hearts.heartsgame;
 
 import hearts.components.HeartsDeck;
 import hearts.components.HeartsPlayer;
+import hearts.components.HeartsPlayerState;
 import hearts.config.HeartsConfig;
+import hearts.util.HeartsCardList;
 import hearts.util.HeartsPair;
 import hearts.util.HeartsPass;
-import hearts.util.HeartsPlayerPointPair;
 import hearts.util.HeartsTrick;
 
 import java.io.PrintStream;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class HeartsGameManager {
 	private PrintStream stream;
-	private List<HeartsPlayerPointPair> pairs;
+	private List<HeartsPlayerState> playerStates;
 	private HeartsDeck deck;
 	private HeartsPass currentPass;
 	
@@ -25,9 +26,9 @@ public class HeartsGameManager {
 					+ "must have %d players", HeartsConfig.NUM_PLAYERS));
 		}
 		this.stream = stream;
-		this.pairs = new ArrayList<HeartsPlayerPointPair>();
+		this.playerStates = new ArrayList<HeartsPlayerState>();
 		for(HeartsPlayer player : players) {
-			pairs.add(new HeartsPlayerPointPair(player, 0));
+			playerStates.add(new HeartsPlayerState(player));
 		}
 		deck = null;
 	}
@@ -57,9 +58,9 @@ public class HeartsGameManager {
 	private void initGame() {
 		printStartGame();
 		
-		Collections.shuffle(pairs);
-		for(HeartsPlayerPointPair pair : pairs) {
-			pair.setPoints(0);
+		Collections.shuffle(playerStates);
+		for(HeartsPlayerState state : playerStates) {
+			state.setScore(0);
 		}
 		
 		deck = new HeartsDeck();
@@ -77,12 +78,15 @@ public class HeartsGameManager {
 	}
 	
 	private void deal() {
-		for
+		for (HeartsPlayerState state : playerStates) {
+			HeartsCardList hand = (HeartsCardList) deck.drawCards(13);
+			state.setHand(hand);
+		}
 	}
 	
 	private boolean gameOver() {
-		for (HeartsPlayerPointPair pair : pairs) {
-			if (pair.getPoints() >= HeartsConfig.MAX_SCORE) {
+		for (HeartsPlayerState state : playerStates) {
+			if (state.getScore() >= HeartsConfig.MAX_SCORE) {
 				return true;
 			}
 		}
@@ -91,8 +95,8 @@ public class HeartsGameManager {
 	
 	private void printStartGame() {
 		stream.println(HeartsConfig.START_OF_GAME);
-		for(HeartsPlayerPointPair pair : pairs) {
-			stream.println(pair.getPlayer());
+		for(HeartsPlayerState state : playerStates) {
+			stream.println(state.getPlayer());
 		}
 		stream.println(HeartsConfig.END_OF_PLAYER_LIST);
 	}
