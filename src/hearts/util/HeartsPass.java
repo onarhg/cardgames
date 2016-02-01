@@ -19,6 +19,16 @@ public enum HeartsPass {
 		return clockwisePasses;
 	}
 	
+	public HeartsPass getNextPass() {
+		switch (this) {
+		case LEFT: return HeartsPass.RIGHT;
+		case RIGHT: return HeartsPass.ACROSS;
+		case ACROSS: return HeartsPass.HOLD;
+		case HOLD: return HeartsPass.LEFT;
+		default: return null;
+		}
+	}
+	
 	public String toString() {
 		return name;
 	}
