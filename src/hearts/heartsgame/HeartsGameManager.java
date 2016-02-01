@@ -4,6 +4,7 @@ import hearts.components.HeartsDeck;
 import hearts.components.HeartsPlayer;
 import hearts.config.HeartsConfig;
 import hearts.util.HeartsPair;
+import hearts.util.HeartsPass;
 import hearts.util.HeartsPlayerPointPair;
 import hearts.util.HeartsTrick;
 
@@ -16,6 +17,7 @@ public class HeartsGameManager {
 	private PrintStream stream;
 	private List<HeartsPlayerPointPair> pairs;
 	private HeartsDeck deck;
+	private HeartsPass currentPass;
 	
 	public HeartsGameManager(PrintStream stream, List<HeartsPlayer> players) {
 		if (players.size() != HeartsConfig.NUM_PLAYERS) {
@@ -27,7 +29,7 @@ public class HeartsGameManager {
 		for(HeartsPlayer player : players) {
 			pairs.add(new HeartsPlayerPointPair(player, 0));
 		}
-		deck = new HeartsDeck();
+		deck = null;
 	}
 	
 	// IDK what the best way to structure this is, but if we have printing separated from the the play of the game,
@@ -42,6 +44,8 @@ public class HeartsGameManager {
 			 * printStuff();
 			 */
 		}
+		
+		printEndGame();
 	}
 	
 	public void playGames(int n) {
@@ -52,10 +56,14 @@ public class HeartsGameManager {
 	
 	private void initGame() {
 		printStartGame();
+		
 		Collections.shuffle(pairs);
 		for(HeartsPlayerPointPair pair : pairs) {
 			pair.setPoints(0);
 		}
+		
+		deck = new HeartsDeck();
+		currentPass = HeartsPass.LEFT;
 	}
 	
 	private void playHand() {
@@ -65,6 +73,11 @@ public class HeartsGameManager {
 		 * Pass
 		 * Lead
 		 */
+		deal();
+	}
+	
+	private void deal() {
+		for
 	}
 	
 	private boolean gameOver() {
