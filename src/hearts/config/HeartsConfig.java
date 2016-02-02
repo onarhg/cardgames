@@ -8,8 +8,10 @@ import cards.StandardRank;
 import cards.StandardSuit;
 
 public class HeartsConfig {
+	public static final int PASS_SIZE = 3;
 	public static final int MAX_SCORE = 100;
 	public static final int NUM_PLAYERS = 4;
+	
 	public static final String START_OF_GAME = ">";
 	public static final String END_OF_PLAYER_LIST = "=";
 	public static final String END_OF_GAME = "<";

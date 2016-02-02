@@ -1,7 +1,6 @@
 package hearts.components;
 
 import hearts.util.HeartsCardList;
-import player.Player;
 import player.PlayerState;
 
 public class HeartsPlayerState extends PlayerState {
@@ -15,7 +14,7 @@ public class HeartsPlayerState extends PlayerState {
 		hand = null;
 	}
 	
-	public Player getPlayer() {
+	public HeartsPlayer getPlayer() {
 		return player;
 	}
 	

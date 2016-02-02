@@ -35,4 +35,9 @@ public class StandardCard extends Card implements Ranked<StandardRank>,
 		StandardCard standardCard = (StandardCard)other;
 		return this.rank == standardCard.rank && this.suit == standardCard.suit;
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.rank.hashCode() ^ this.suit.hashCode();
+	}
 }
