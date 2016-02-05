@@ -67,23 +67,6 @@ public class HeartsGameManager {
 		currentPass = HeartsPass.LEFT;
 	}
 	
-	private void playHand() {
-		/* 
-		 * TODO:
-		 * Deal
-		 * Pass
-		 * Lead
-		 */
-		deal();
-	}
-	
-	private void deal() {
-		for (HeartsPlayerState state : playerStates) {
-			HeartsCardList hand = (HeartsCardList) deck.drawCards(13);
-			state.setHand(hand);
-		}
-	}
-	
 	private boolean gameOver() {
 		for (HeartsPlayerState state : playerStates) {
 			if (state.getScore() >= HeartsConfig.MAX_SCORE) {
@@ -104,15 +87,5 @@ public class HeartsGameManager {
 	private void printEndGame() {
 		// TODO: total scores? other fun stats?
 		stream.println(HeartsConfig.END_OF_GAME);
-	}
-	
-	private void printTrick(HeartsTrick trick) {
-		for(HeartsPair pair: trick.getPairs()) {
-			stream.print(pair.getPlayer());
-			stream.print(":");
-			stream.print(pair.getCard());
-		}
-		
-		stream.println();
 	}
 }
