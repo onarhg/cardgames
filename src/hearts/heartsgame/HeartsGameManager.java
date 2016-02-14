@@ -1,23 +1,16 @@
 package hearts.heartsgame;
 
-import hearts.components.HeartsDeck;
+import java.io.PrintStream;
+import java.util.List;
+
 import hearts.components.HeartsPlayer;
 import hearts.components.HeartsPlayerState;
 import hearts.config.HeartsConfig;
-import hearts.util.HeartsCardList;
-import hearts.util.HeartsPair;
 import hearts.util.HeartsPass;
-import hearts.util.HeartsTrick;
-
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class HeartsGameManager {
 	private PrintStream stream;
-	private List<HeartsPlayerState> playerStates;
-	private HeartsDeck deck;
+	private HeartsPlayerState[] states;
 	private HeartsPass currentPass;
 	
 	public HeartsGameManager(PrintStream stream, List<HeartsPlayer> players) {
@@ -26,24 +19,18 @@ public class HeartsGameManager {
 					+ "must have %d players", HeartsConfig.NUM_PLAYERS));
 		}
 		this.stream = stream;
-		this.playerStates = new ArrayList<HeartsPlayerState>();
-		for(HeartsPlayer player : players) {
-			playerStates.add(new HeartsPlayerState(player));
+		this.states = new HeartsPlayerState[HeartsConfig.NUM_PLAYERS];
+		for(int i = 0; i < HeartsConfig.NUM_PLAYERS; i++) {
+			states[i] = new HeartsPlayerState(players.get(i));
 		}
-		deck = null;
 	}
 	
-	// IDK what the best way to structure this is, but if we have printing separated from the the play of the game,
-	// we still have to pass game state back and forth to make printing possible
 	public void playGame() {
 		initGame();
 		
 		while(!gameOver()) {
-			/* 
-			 * TODO:
-			 * playHand(int passIndex);
-			 * printStuff();
-			 */
+			new HeartsHandManager(states, stream, currentPass).playHand();
+			//TODO: printStuff();
 		}
 		
 		printEndGame();
@@ -58,17 +45,15 @@ public class HeartsGameManager {
 	private void initGame() {
 		printStartGame();
 		
-		Collections.shuffle(playerStates);
-		for(HeartsPlayerState state : playerStates) {
+		for(HeartsPlayerState state : states) {
 			state.setScore(0);
 		}
 		
-		deck = new HeartsDeck();
 		currentPass = HeartsPass.LEFT;
 	}
 	
 	private boolean gameOver() {
-		for (HeartsPlayerState state : playerStates) {
+		for (HeartsPlayerState state : states) {
 			if (state.getScore() >= HeartsConfig.MAX_SCORE) {
 				return true;
 			}
@@ -78,7 +63,7 @@ public class HeartsGameManager {
 	
 	private void printStartGame() {
 		stream.println(HeartsConfig.START_OF_GAME);
-		for(HeartsPlayerState state : playerStates) {
+		for(HeartsPlayerState state : states) {
 			stream.println(state.getPlayer());
 		}
 		stream.println(HeartsConfig.END_OF_PLAYER_LIST);

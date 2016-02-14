@@ -2,6 +2,7 @@ package hearts.util;
 
 import hearts.components.HeartsCard;
 import hearts.components.HeartsPlayer;
+import hearts.config.HeartsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,15 @@ import cards.StandardSuit;
 
 
 public class HeartsTrick {
-	private List<HeartsPair> pairs;
+	private HeartsCard[] plays;
+	private int firstPlayIndex;
+	private int currentPlayIndex;
 	
 	public HeartsTrick() {
-		pairs = new ArrayList<HeartsPair>();
+		plays = new HeartsCard[HeartsConfig.NUM_PLAYERS];
 	}
 	
-	public void addCard(HeartsPlayer player, HeartsCard card) throws IllegalStateException {
+	public void addCard(HeartsCard card) {
 		if (pairs.size() >= 4) {
 			throw new IllegalStateException("Already 4 cards in trick");
 		}

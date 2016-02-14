@@ -1,12 +1,12 @@
 package hearts.components;
 
-import java.util.Collections;
-
-import cards.StandardSuit;
 import cards.StandardRank;
+import cards.StandardSuit;
 import deck.Deck;
 
 public class HeartsDeck extends Deck<HeartsCard> {
+	public static final int MAX_SIZE = 52;
+	
 	public HeartsDeck() {
 		super();
 		for (StandardSuit suit : StandardSuit.values()) {
@@ -14,6 +14,5 @@ public class HeartsDeck extends Deck<HeartsCard> {
 				cards.add(new HeartsCard(rank, suit));
 			}
 		}
-		Collections.shuffle(cards);
 	}
 }
