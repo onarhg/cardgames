@@ -1,13 +1,12 @@
-package hearts.components;
+package hearts.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import hearts.util.HeartsCardList;
-import hearts.util.HeartsTrick;
+import hearts.components.HeartsPlayer;
 import player.PlayerState;
 
-public class HeartsPlayerState extends PlayerState {
+final public class HeartsPlayerState extends PlayerState {
 	private final HeartsPlayer player;
 	private int score;
 	private HeartsCardList hand;
@@ -16,7 +15,7 @@ public class HeartsPlayerState extends PlayerState {
 	public HeartsPlayerState(HeartsPlayer player) {
 		this.player = player;
 		score = 0;
-		hand = null;
+		hand = new HeartsCardList();
 		wonTricks = new ArrayList<HeartsTrick>();
 	}
 	
