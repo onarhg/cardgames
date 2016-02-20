@@ -53,4 +53,12 @@ public class HeartsCardList extends CardList<HeartsCard> {
 		
 		return false;
 	}
+	
+	public HeartsCardList getDeepCopy() {
+		HeartsCardList list = new HeartsCardList();
+		for (HeartsCard card : this) {
+			list.add(card.getDeepCopy());
+		}
+		return list;
+	}
 }

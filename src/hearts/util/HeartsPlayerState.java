@@ -6,7 +6,7 @@ import java.util.List;
 import hearts.components.HeartsPlayer;
 import player.PlayerState;
 
-final public class HeartsPlayerState extends PlayerState {
+public final class HeartsPlayerState extends PlayerState {
 	private final HeartsPlayer player;
 	private int score;
 	private HeartsCardList hand;

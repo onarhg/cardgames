@@ -33,7 +33,7 @@ public class StandardCard extends Card implements Ranked<StandardRank>,
 			return false;
 		}
 		StandardCard standardCard = (StandardCard)other;
-		return this.rank == standardCard.rank && this.suit == standardCard.suit;
+		return this.rank.equals(standardCard.rank) && this.suit.equals(standardCard.suit);
 	}
 	
 	@Override

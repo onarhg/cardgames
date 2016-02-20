@@ -30,8 +30,10 @@ public abstract class Deck<C extends Card> {
 					+ "requisite number of cards");
 		}
 		
-		CardList<C> drawnCards = (CardList<C>) cards.subList(0, numCards);
-		cards.removeAll(drawnCards);
+		CardList<C> drawnCards = new CardList<C>();
+		for (int i = 0; i < numCards; i++) {
+			drawnCards.add(this.drawCard());
+		}
 		return drawnCards;
 	}
 	

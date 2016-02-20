@@ -1,55 +1,75 @@
 package hearts.util;
 
 import hearts.components.HeartsCard;
-import hearts.components.HeartsPlayer;
 import hearts.config.HeartsConfig;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import cards.StandardSuit;
-
-
-public class HeartsTrick {
-	private HeartsCard[] plays;
-	private int firstPlayIndex;
-	private int currentPlayIndex;
+public final class HeartsTrick {
+	private HeartsCard[] cards;
+	private int leadIndex;
+	private int trickNumber;
+	private int numPlaysMade;
 	
-	public HeartsTrick() {
-		plays = new HeartsCard[HeartsConfig.NUM_PLAYERS];
+	public HeartsTrick(int leadIndex, int trickNumber) {
+		cards = new HeartsCard[HeartsConfig.NUM_PLAYERS];
+		this.leadIndex = leadIndex;
+		this.numPlaysMade = 0;
 	}
 	
 	public void addCard(HeartsCard card) {
-		if (pairs.size() >= 4) {
-			throw new IllegalStateException("Already 4 cards in trick");
+		if (numPlaysMade >= HeartsConfig.NUM_PLAYERS) {
+			throw new IllegalStateException("Already " + HeartsConfig.NUM_PLAYERS + " cards in trick");
 		}
 		
-		for (HeartsPair pair : pairs) {
-			if (player.equals(pair.getPlayer())) {
-				throw new IllegalStateException("Player already played a card");
+		cards[(leadIndex + numPlaysMade) % HeartsConfig.NUM_PLAYERS] = card;
+		numPlaysMade++;
+	}
+	
+	public HeartsCard getLedCard() {
+		return cards[leadIndex];
+	}
+	
+	public int getLeadIndex() {
+		return leadIndex;
+	}
+	
+	public HeartsCard[] getCards() {
+		return cards;
+	}
+	
+	public boolean isOver() {
+		return numPlaysMade == HeartsConfig.NUM_PLAYERS;
+	}
+	
+	public int getWinningPlayerIndex() {
+		int winningPlayerIndex = leadIndex;
+		for (int i = 1; i < numPlaysMade; i++) {
+			int index = (leadIndex + 1) % HeartsConfig.NUM_PLAYERS;
+			if (cards[index].getSuit().equals(cards[winningPlayerIndex].getSuit()) &&
+					cards[index].compareTo(cards[winningPlayerIndex]) > 0) {
+				winningPlayerIndex = index; 
 			}
 		}
-		
-		pairs.add(new HeartsPair(player, card));
+		return winningPlayerIndex;
 	}
 	
-	public List<HeartsPair> getPairs() {
-		return pairs;
-	}
-	
-	public boolean isComplete() {
-		return pairs.size() >= 4;
-	}
-	
-	public HeartsPair getWinningPair() {
-		StandardSuit ledSuit = pairs.get(0).getCard().getSuit();
-		HeartsPair winningPair = pairs.get(0); 
-		for (HeartsPair pair : pairs) {
-			if (pair.getCard().getSuit() == ledSuit && pair.getCard().compareTo(winningPair.getCard()) > 0) {
-				winningPair = pair;
-			}
+	public int getPoints() {
+		int points = 0;
+		for (HeartsCard card : cards) {
+			points += card.getPointValue();
 		}
-		
-		return winningPair;
+		return points;
+	}
+	
+	/*
+	 * Returns a copy of the HeartsTrick that can be modified any amount without affecting this (the original)
+	 */
+	public HeartsTrick getDeepCopy() {
+		HeartsTrick deepCopy = new HeartsTrick(leadIndex, trickNumber);
+		for (int i = 0; i < numPlaysMade; i++) {
+			int cardIndex = (leadIndex + i) % HeartsConfig.NUM_PLAYERS; 
+			deepCopy.addCard(cards[cardIndex].getDeepCopy());
+		}
+		return deepCopy;
 	}
 }

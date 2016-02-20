@@ -4,9 +4,9 @@ import java.io.PrintStream;
 import java.util.List;
 
 import hearts.components.HeartsPlayer;
-import hearts.components.HeartsPlayerState;
 import hearts.config.HeartsConfig;
 import hearts.util.HeartsPass;
+import hearts.util.HeartsPlayerState;
 
 public class HeartsGameManager {
 	private PrintStream stream;
@@ -22,6 +22,7 @@ public class HeartsGameManager {
 		this.states = new HeartsPlayerState[HeartsConfig.NUM_PLAYERS];
 		for(int i = 0; i < HeartsConfig.NUM_PLAYERS; i++) {
 			states[i] = new HeartsPlayerState(players.get(i));
+			states[i].getPlayer().setPlayerNumber(i);
 		}
 	}
 	
@@ -33,7 +34,7 @@ public class HeartsGameManager {
 			//TODO: printStuff();
 		}
 		
-		printEndGame();
+		//printEndGame();
 	}
 	
 	public void playGames(int n) {
@@ -43,7 +44,7 @@ public class HeartsGameManager {
 	}
 	
 	private void initGame() {
-		printStartGame();
+		//printStartGame();
 		
 		for(HeartsPlayerState state : states) {
 			state.setScore(0);

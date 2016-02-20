@@ -1,11 +1,11 @@
 package hearts.components;
 
-import hearts.config.HeartsConfig;
 import cards.StandardCard;
 import cards.StandardRank;
 import cards.StandardSuit;
+import hearts.config.HeartsConfig;
 
-public class HeartsCard extends StandardCard implements Comparable<HeartsCard> {
+final public class HeartsCard extends StandardCard implements Comparable<HeartsCard> {
 	private final int pointValue;
 
 	public HeartsCard(StandardRank rank, StandardSuit suit) {
@@ -39,5 +39,9 @@ public class HeartsCard extends StandardCard implements Comparable<HeartsCard> {
 	@Override
 	public int compareTo(HeartsCard other) {
 		return this.getRankValue() - other.getRankValue();
+	}
+	
+	public HeartsCard getDeepCopy() {
+		return new HeartsCard(this.rank, this.suit);
 	}
 }
