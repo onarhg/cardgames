@@ -13,5 +13,6 @@ public class GameClient {
 		players.add(new HeartsPlayer());
 		players.add(new HeartsPlayer());
 		HeartsGameManager gameManager = new HeartsGameManager(null, players);
+		gameManager.playGames(1);
 	}
 }
